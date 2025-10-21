@@ -117,3 +117,6 @@ dist
 
 # Vercel
 .vercel
+
+.vscode/
+.idx/
