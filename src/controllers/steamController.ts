@@ -46,13 +46,14 @@ export const getItemPriceController = async () => {
     const itemPrice = await getItemPriceService();
     if (!itemPrice.success) throw new Error("Success return failed");
 
-    const steamPrice = Number(itemPrice.median_price.replace("$", ""));
+    const steamPrice = Number(itemPrice.lowest_price.replace("$", ""));
 
     const formatData = [
       `Steam price: ${steamPrice} $`,
       `Volume: ${itemPrice.volume}`,
       `Rate 0.75: ${(steamPrice * 0.75).toFixed(2)} $`,
       `Rate 0.7: ${(steamPrice * 0.7).toFixed(2)} $`,
+      `Rate 0.68: ${(steamPrice * 0.68).toFixed(2)} $`,
       `Rate 0.65: ${(steamPrice * 0.65).toFixed(2)} $`,
     ].join("\n");
 

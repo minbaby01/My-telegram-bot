@@ -126,7 +126,7 @@ export const cleanUp = async () => {
 
 export const getItemPriceService = async () => {
   const { data } = await steamApi.get<ItemPriceData>(
-    "/priceoverview/?appid=730&currency=1&market_hash_name=Name%20Tag"
+    `/priceoverview/?appid=730&currency=1&market_hash_name=${process.env.ITEM_NAME}`
   );
   return data;
 };
