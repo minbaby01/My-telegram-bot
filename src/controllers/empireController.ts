@@ -59,7 +59,7 @@ export const getActiveDepositController = async () => {
       .reduce((sum, d) => sum + (d.total_value ?? 0), 0);
 
     const currentDeposit = deposits
-      .filter((d) => d.status === 13)
+      .filter((d) => d.status !== 13)
       .sort((a, b) => a.id - b.id)
       .map((d) => {
         const deposit = [
