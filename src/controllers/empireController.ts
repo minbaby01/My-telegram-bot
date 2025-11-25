@@ -51,28 +51,33 @@ export const getActiveDepositController = async () => {
   try {
     const { deposits } = await getActiveTradesService();
 
-    if (!deposits.length) throw new Error("No active deposits");
+    const depositLength = deposits.length;
+    if (!depositLength) throw new Error("No active deposits");
 
     const totalPending = deposits
       .filter((d) => d.status === 13)
       .reduce((sum, d) => sum + (d.total_value ?? 0), 0);
 
-    const formatted = deposits
+    const currentDeposit = deposits
+      .filter((d) => d.status === 13)
       .sort((a, b) => a.id - b.id)
       .map((d) => {
-        const parts = [
-          `Order: ${d.id}`,
+        const deposit = [
           `Price: ${convertToUsd(d.total_value)}$`,
           `Status: ${d.status_message}(${d.status})`,
           d.metadata.partner &&
-            d.status != 13 &&
             `BuyerInfo: ${JSON.stringify(d.metadata.partner, null, 2)}`,
         ];
 
-        return parts.filter(Boolean).join(" - ");
+        return deposit.filter(Boolean).join(" - ");
       });
 
-    return [...formatted, `Pending: ${convertToUsd(totalPending)}$`].join("\n");
+    const returnData = [
+      ...(currentDeposit.length ? [`Current deposit: ${currentDeposit}`] : []),
+      `Pending (${depositLength}): ${convertToUsd(totalPending)}$`,
+    ].join("\n");
+
+    return returnData;
   } catch (error) {
     throw new Error(`getActiveDepositController: ${error}`);
   }
