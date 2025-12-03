@@ -37,7 +37,7 @@ export const createAndConfirmTradeOfferController = async () => {
     await markAsSentService({ depositId: offerToSend.id.toString() });
     return confirmTradeOffer;
   } catch (error) {
-    throw new Error(`createAndConfirmTradeOfferController: ${error}`);
+    throw error;
   }
 };
 
@@ -59,6 +59,6 @@ export const getItemPriceController = async () => {
 
     return formatData;
   } catch (error) {
-    throw new Error(`getItemPriceController: ${error}`);
+    throw error;
   }
 };

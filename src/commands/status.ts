@@ -1,5 +1,6 @@
 import { Context } from "telegraf";
 import { getActiveDepositController } from "../controllers/empireController";
+import { getErrorMessage } from "../utils";
 
 export const status = async (ctx: Context) => {
   try {
@@ -7,6 +8,6 @@ export const status = async (ctx: Context) => {
 
     return ctx.reply(data);
   } catch (err) {
-    return ctx.reply(`Get status failed: ${err}`);
+    return ctx.reply(getErrorMessage(err));
   }
 };

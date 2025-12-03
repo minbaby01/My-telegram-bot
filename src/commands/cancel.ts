@@ -1,5 +1,6 @@
 import { Context } from "telegraf";
 import { cancelDepositController } from "../controllers/empireController";
+import { getErrorMessage } from "../utils";
 
 export const cancel = async (ctx: Context) => {
   try {
@@ -7,6 +8,6 @@ export const cancel = async (ctx: Context) => {
 
     return ctx.reply(`Cancel OK`);
   } catch (err) {
-    return ctx.reply(`Cance failed: ${err}`);
+    return ctx.reply(getErrorMessage(err));
   }
 };

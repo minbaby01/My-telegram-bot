@@ -1,5 +1,6 @@
 import { Context } from "telegraf";
 import { countController } from "../controllers/empireController";
+import { getErrorMessage } from "../utils";
 
 export const count = async (ctx: Context) => {
   try {
@@ -7,6 +8,6 @@ export const count = async (ctx: Context) => {
 
     return ctx.reply(`Item in stock: ${count}`);
   } catch (err) {
-    return ctx.reply(`Count failed: ${err}`);
+    return ctx.reply(getErrorMessage(err));
   }
 };

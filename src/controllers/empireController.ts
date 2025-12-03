@@ -43,7 +43,7 @@ export const createDepositController = async ({ price }: { price: number }) => {
 
     return;
   } catch (error) {
-    throw new Error(`createDepositController: ${error}`);
+    throw error;
   }
 };
 
@@ -51,8 +51,11 @@ export const getActiveDepositController = async () => {
   try {
     const { deposits } = await getActiveTradesService();
 
-    const depositLength = deposits.length;
-    if (!depositLength) throw new Error("No active deposits");
+    if (!deposits.length) throw new Error("No active deposits");
+
+    const depositCompleteLength = deposits.filter(
+      (d) => d.status === 13
+    ).length;
 
     const totalPending = deposits
       .filter((d) => d.status === 13)
@@ -63,6 +66,7 @@ export const getActiveDepositController = async () => {
       .sort((a, b) => a.id - b.id)
       .map((d) => {
         const deposit = [
+          `Order: ${d.id}`,
           `Price: ${convertToUsd(d.total_value)}$`,
           `Status: ${d.status_message}(${d.status})`,
           d.metadata.partner &&
@@ -74,19 +78,18 @@ export const getActiveDepositController = async () => {
 
     const returnData = [
       ...(currentDeposit.length ? [`Current deposit: ${currentDeposit}`] : []),
-      `Pending (${depositLength}): ${convertToUsd(totalPending)}$`,
+      `Pending (${depositCompleteLength}): ${convertToUsd(totalPending)}$`,
     ].join("\n");
 
     return returnData;
   } catch (error) {
-    throw new Error(`getActiveDepositController: ${error}`);
+    throw error;
   }
 };
 
 export const cancelDepositController = async () => {
   try {
     const { deposits } = await getActiveTradesService();
-
     if (!deposits.length) throw new Error("No active deposits");
 
     const depositId = deposits[0].id;
@@ -96,18 +99,18 @@ export const cancelDepositController = async () => {
 
     return success;
   } catch (error) {
-    throw new Error(`cancelDepositController: ${error}`);
+    throw error;
   }
 };
 
 export const blockUserController = async ({ steamId }: BlockUserPayload) => {
   try {
     const { success } = await blockUserService({ steamId });
-    if (!success) throw new Error("blockUserController: Unk fail");
+    if (!success) throw new Error("Unk fail");
 
     return success;
   } catch (error) {
-    throw new Error(`blockUserController: ${error}`);
+    throw error;
   }
 };
 
@@ -115,21 +118,21 @@ export const countController = async () => {
   try {
     const { deposits } = await getActiveTradesService();
 
-    const depositedItems: Maybe<number>[] = [];
+    const depositedItemIds: Maybe<number>[] = [];
 
     for (const item of deposits) {
       if (item.status === 2) continue;
-      depositedItems.push(item.item_id);
+      depositedItemIds.push(item.item_id);
     }
 
     const { data } = await getCSGOInventoryService();
 
     const items = data
       .filter((item) => item.market_name === ITEM_NAME)
-      .filter((item) => !depositedItems.includes(item.id));
+      .filter((item) => !depositedItemIds.includes(item.id));
 
     return items.length;
   } catch (error) {
-    throw new Error(`countController: ${error}`);
+    throw error;
   }
 };
