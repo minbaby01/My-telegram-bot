@@ -1,6 +1,6 @@
 import {
   getMastercardUsdRateService,
-  getVisaUsdRateService,
+  // getVisaUsdRateService,
 } from "../services/moneyService";
 
 export const getUsdRateController = async () => {
@@ -14,13 +14,13 @@ export const getUsdRateController = async () => {
       .format(new Date())
       .split("/");
 
-    const visaRate = await getVisaUsdRateService(`${m}/${d}/${y}`);
+    // const visaRate = await getVisaUsdRateService(`${m}/${d}/${y}`);
     const mastercardRate = await getMastercardUsdRateService(`${y}-${m}-${d}`);
 
     const returnData = [
       `${d}/${m}/${y} rate:`,
-      `Visa: ${visaRate.originalValues.toAmountWithVisaRate}`,
-      `Mastercard: ${mastercardRate.conversionRate}`,
+      // `Visa: ${visaRate.originalValues.toAmountWithVisaRate}`,
+      `Mastercard: ${mastercardRate?.data?.conversionRate ?? "Error"}`,
     ].join("\n");
 
     return returnData;

@@ -8,7 +8,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     const headerToken = req.headers["x-telegram-bot-api-secret-token"];
 
     if (headerToken !== secret) {
-      return res.status(401).json({ message: "Unauthorized" });
+      return res.status(200).json({ message: "Unauthorized" });
     }
 
     if (req.body.message.from.id != adminId) {
