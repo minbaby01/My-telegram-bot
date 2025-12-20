@@ -9,7 +9,6 @@ import { count } from "./commands/count";
 import { start } from "./commands/start";
 import { send } from "./commands/send";
 import { getItemPrice } from "./commands/getItemPrice";
-import { rate } from "./commands/rate";
 
 const TOKEN = process.env.BOT_TOKEN;
 if (!TOKEN) throw new Error("Tele bot token not found");
@@ -25,4 +24,3 @@ bot.command("status", status);
 bot.command("start", start);
 bot.command("send", send);
 bot.command("get", getItemPrice);
-bot.command("rate", rate);
