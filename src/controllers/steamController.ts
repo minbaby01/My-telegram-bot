@@ -3,43 +3,43 @@ import {
   markAsSentService,
 } from "../services/empireService";
 import {
-  cleanUp,
-  confirmTradeOfferService,
-  createTradeOfferService,
+  // cleanUp,
+  // confirmTradeOfferService,
+  // createTradeOfferService,
   getItemPriceService,
-  loginSteamService,
+  // loginSteamService,
 } from "../services/steamService";
 import { DepositCustom } from "../types/empire";
 
-export const createAndConfirmTradeOfferController = async () => {
-  try {
-    const data = await getActiveTradesService();
-    const deposits: DepositCustom[] = data.deposits;
-    if (!deposits.length) throw new Error("No active deposits");
+// export const createAndConfirmTradeOfferController = async () => {
+//   try {
+//     const data = await getActiveTradesService();
+//     const deposits: DepositCustom[] = data.deposits;
+//     if (!deposits.length) throw new Error("No active deposits");
 
-    const offerToSend = deposits.find((d) => d.status === 3);
-    if (!offerToSend) throw new Error("No offer to send");
-    if (!offerToSend?.item) throw new Error("Can not find asset_id");
+//     const offerToSend = deposits.find((d) => d.status === 3);
+//     if (!offerToSend) throw new Error("No offer to send");
+//     if (!offerToSend?.item) throw new Error("Can not find asset_id");
 
-    await loginSteamService();
+//     await loginSteamService();
 
-    const tradeOfferId = await createTradeOfferService({
-      tradeUrl: offerToSend.metadata.trade_url as any,
-      assetIds: [offerToSend.item.asset_id],
-    });
+//     const tradeOfferId = await createTradeOfferService({
+//       tradeUrl: offerToSend.metadata.trade_url as any,
+//       assetIds: [offerToSend.item.asset_id],
+//     });
 
-    const confirmTradeOffer = await confirmTradeOfferService({
-      tradeOfferId: tradeOfferId,
-    });
-    if (!confirmTradeOffer) throw new Error("Confirm failed");
+//     const confirmTradeOffer = await confirmTradeOfferService({
+//       tradeOfferId: tradeOfferId,
+//     });
+//     if (!confirmTradeOffer) throw new Error("Confirm failed");
 
-    await cleanUp();
-    await markAsSentService({ depositId: offerToSend.id.toString() });
-    return confirmTradeOffer;
-  } catch (error) {
-    throw error;
-  }
-};
+//     await cleanUp();
+//     await markAsSentService({ depositId: offerToSend.id.toString() });
+//     return confirmTradeOffer;
+//   } catch (error) {
+//     throw error;
+//   }
+// };
 
 export const getItemPriceController = async () => {
   try {
