@@ -14,7 +14,8 @@ export const block = async (ctx: CustomContext) => {
     if (!success) throw error.message;
 
     await blockUserController({ steamId: data.steamId });
-    return ctx.reply(`Blocked Steam ID: ${data.steamId}`);
+
+    return ctx.reply(`Blocked`);
   } catch (err) {
     return ctx.reply(getErrorMessage(err));
   }

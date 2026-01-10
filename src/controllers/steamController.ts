@@ -9,7 +9,6 @@ import {
   getItemPriceService,
   // loginSteamService,
 } from "../services/steamService";
-import { DepositCustom } from "../types/empire";
 
 // export const createAndConfirmTradeOfferController = async () => {
 //   try {
@@ -41,10 +40,10 @@ import { DepositCustom } from "../types/empire";
 //   }
 // };
 
-export const getItemPriceController = async () => {
+export const getItemPriceController = async (): Promise<string> => {
   try {
     const itemPrice = await getItemPriceService();
-    if (!itemPrice.success) throw new Error("Success return failed");
+    if (!itemPrice.success) throw new Error("Steam error");
 
     const steamPrice = Number(itemPrice.lowest_price.replace("$", ""));
 

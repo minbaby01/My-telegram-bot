@@ -1,49 +1,50 @@
-import { empire, empireApi } from "../lib/empireApi";
-import {
-  BlockUserPayload,
-  BlockUserResponse,
-  CancelDepositPayload,
-  CreateDepositPayload,
-  MarkAsSentPayload,
-} from "../types/empire";
+import { empireApi } from "../lib/empireApi";
+import { BlockUserPayload, BlockUserResponse } from "../types/empire/BlockUser";
+import { CancelDepositPayload } from "../types/empire/CancelDeposit";
+import { CreateDepositItemsPayload } from "../types/empire/CreateDeposit";
+import { GetActiveTradeResponse } from "../types/empire/GetActiveTrades";
+import { GetCs2InventoryResponse } from "../types/empire/GetCs2Inventory";
+import { MarkAsSentPayload } from "../types/empire/MarkAsSent";
 
-export const getCSGOInventoryService = async () => {
-  return await empire.getCSGOInventory(true);
+export const getCs2InventoryService = async () => {
+  const { data } = await empireApi.get<GetCs2InventoryResponse>(
+    `/user/inventory`
+  );
+  return data;
 };
 
-export const createDepositService = async ({
-  id,
-  coinValue,
-}: CreateDepositPayload) => {
-  return await empire.createDeposit({
+export const createDepositService = async (
+  dataItems: CreateDepositItemsPayload
+): Promise<void> => {
+  await empireApi.post(`/deposit`, {
     items: [
-      {
-        id: id,
-        custom_price: coinValue,
-        coin_value: coinValue,
-      },
+      dataItems.map((i) => ({
+        id: i.id,
+        coin_value: i.coinValue,
+      })),
     ],
   });
 };
 
 export const getActiveTradesService = async () => {
-  const { data } = await empire.getActiveTrades();
+  const { data } = await empireApi.get<GetActiveTradeResponse>(`/user/trades`);
   return data;
 };
 
 export const cancelDepositService = async ({
   depositId,
-}: CancelDepositPayload) => {
-  return await empire.cancelDeposit(depositId);
+}: CancelDepositPayload): Promise<void> => {
+  await empireApi.post(`/deposit/${depositId}/cancel`);
 };
 
 export const blockUserService = async ({ steamId }: BlockUserPayload) => {
   const { data } = await empireApi.post<BlockUserResponse>(
-    `/trading/block-list/${steamId}`
+    `/block-list/${steamId}`
   );
   return data;
 };
 
 export const markAsSentService = async ({ depositId }: MarkAsSentPayload) => {
-  return (await empireApi.post(`/${depositId}/sent`)).data;
+  const { data } = await empireApi.post(`/deposit/${depositId}/sent`);
+  return data;
 };

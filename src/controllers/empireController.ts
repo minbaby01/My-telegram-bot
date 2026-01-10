@@ -1,30 +1,36 @@
-import { Maybe } from "csgoempire-api/dist/typings/utils";
 import { RATE } from "../constant";
+import { TRADE_STATUS } from "../constant/tradeStatus";
 import {
   blockUserService,
   cancelDepositService,
   createDepositService,
   getActiveTradesService,
-  getCSGOInventoryService,
+  getCs2InventoryService,
 } from "../services/empireService";
+import { BlockUserPayload } from "../types/empire/BlockUser";
 import { convertToUsd } from "../utils";
-import { BlockUserPayload } from "../types/empire";
 
 const ITEM_NAME = process.env.ITEM_NAME;
 if (!ITEM_NAME) throw new Error("Item name not found");
 
-export const createDepositController = async ({ price }: { price: number }) => {
+export const createDepositController = async ({
+  price,
+}: {
+  price: number;
+}): Promise<void> => {
   try {
-    const { deposits } = await getActiveTradesService();
+    const activeTrades = await getActiveTradesService();
 
-    const depositedItems: Maybe<number>[] = [];
+    const depositedItems: number[] = [];
 
-    for (const item of deposits) {
-      if (item.status !== 13) throw new Error("Already have deposit");
+    for (const item of activeTrades.data.deposits) {
+      if (item.status !== TRADE_STATUS.COMPLETED_BUT_REVERSIBLE) {
+        throw new Error("Already have deposit");
+      }
       depositedItems.push(item.item_id);
     }
 
-    const { data } = await getCSGOInventoryService();
+    const { data } = await getCs2InventoryService();
 
     const items = data
       .filter((item) => item.market_name === ITEM_NAME)
@@ -36,32 +42,34 @@ export const createDepositController = async ({ price }: { price: number }) => {
 
     const coinValue = Number((price / RATE).toFixed(2).replace(".", ""));
 
-    await createDepositService({
-      id: item.id,
-      coinValue: coinValue,
-    });
-
-    return;
+    await createDepositService([
+      {
+        id: item.id,
+        coinValue: coinValue,
+      },
+    ]);
   } catch (error) {
     throw error;
   }
 };
 
-export const getActiveDepositController = async () => {
+export const getActiveDepositController = async (): Promise<string> => {
   try {
-    const { deposits } = await getActiveTradesService();
+    const activeTrades = await getActiveTradesService();
 
-    if (!deposits.length) throw new Error("No active deposits");
+    if (!activeTrades.data.deposits.length) {
+      throw new Error("No active deposits");
+    }
 
-    const depositCompleteLength = deposits.filter(
-      (d) => d.status === 13
+    const depositCompleteLength = activeTrades.data.deposits.filter(
+      (d) => d.status === TRADE_STATUS.COMPLETED_BUT_REVERSIBLE
     ).length;
 
-    const totalPending = deposits
+    const totalPending = activeTrades.data.deposits
       .filter((d) => d.status === 13)
       .reduce((sum, d) => sum + (d.total_value ?? 0), 0);
 
-    const currentDeposit = deposits
+    const currentDeposit = activeTrades.data.deposits
       .filter((d) => d.status !== 13)
       .sort((a, b) => a.id - b.id)
       .map((d) => {
@@ -69,7 +77,8 @@ export const getActiveDepositController = async () => {
           `Order: ${d.id}`,
           `Price: ${convertToUsd(d.total_value)}$`,
           `Status: ${d.status_message}(${d.status})`,
-          d.metadata.partner &&
+          d.status === TRADE_STATUS.SENT &&
+            d.metadata.partner &&
             `BuyerInfo: ${JSON.stringify(d.metadata.partner, null, 2)}`,
         ];
 
@@ -87,45 +96,43 @@ export const getActiveDepositController = async () => {
   }
 };
 
-export const cancelDepositController = async () => {
+export const cancelDepositController = async (): Promise<void> => {
   try {
-    const { deposits } = await getActiveTradesService();
-    if (!deposits.length) throw new Error("No active deposits");
+    const activeTrades = await getActiveTradesService();
+    if (!activeTrades.data.deposits.length) {
+      throw new Error("No active deposit");
+    }
 
-    const depositId = deposits[0].id;
+    const depositId = activeTrades.data.deposits[0].id;
 
-    const { success } = await cancelDepositService({ depositId });
-    if (!success) throw new Error(`Success false`);
-
-    return success;
+    await cancelDepositService({ depositId });
   } catch (error) {
     throw error;
   }
 };
 
-export const blockUserController = async ({ steamId }: BlockUserPayload) => {
+export const blockUserController = async ({
+  steamId,
+}: BlockUserPayload): Promise<void> => {
   try {
-    const { success } = await blockUserService({ steamId });
-    if (!success) throw new Error("Unk fail");
-
-    return success;
+    await blockUserService({ steamId });
   } catch (error) {
     throw error;
   }
 };
 
-export const countController = async () => {
+export const countController = async (): Promise<number> => {
   try {
-    const { deposits } = await getActiveTradesService();
+    const activeTrades = await getActiveTradesService();
 
-    const depositedItemIds: Maybe<number>[] = [];
+    const depositedItemIds: number[] = [];
 
-    for (const item of deposits) {
-      if (item.status === 2) continue;
+    for (const item of activeTrades.data.deposits) {
+      if (item.status === TRADE_STATUS.PROCESSING) continue;
       depositedItemIds.push(item.item_id);
     }
 
-    const { data } = await getCSGOInventoryService();
+    const { data } = await getCs2InventoryService();
 
     const items = data
       .filter((item) => item.market_name === ITEM_NAME)

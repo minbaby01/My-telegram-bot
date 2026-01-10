@@ -13,7 +13,7 @@ export const deposit = async (ctx: CustomContext) => {
 
     await createDepositController({ price: data.price });
 
-    return ctx.reply(`Deposit ok, maybe fail`);
+    return ctx.reply(`Wait 5s then /status`);
   } catch (err) {
     return ctx.reply(getErrorMessage(err));
   }
