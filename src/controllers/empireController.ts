@@ -45,7 +45,7 @@ export const createDepositController = async ({
     await createDepositService([
       {
         id: item.id,
-        coinValue: coinValue,
+        coin_value: coinValue,
       },
     ]);
   } catch (error) {

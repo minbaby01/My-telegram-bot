@@ -14,15 +14,10 @@ export const getCs2InventoryService = async () => {
 };
 
 export const createDepositService = async (
-  dataItems: CreateDepositItemsPayload
+  items: CreateDepositItemsPayload
 ): Promise<void> => {
   await empireApi.post(`/deposit`, {
-    items: [
-      dataItems.map((i) => ({
-        id: i.id,
-        coin_value: i.coinValue,
-      })),
-    ],
+    items: items,
   });
 };
 

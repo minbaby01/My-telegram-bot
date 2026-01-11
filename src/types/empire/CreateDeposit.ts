@@ -1,6 +1,6 @@
 export type CreateDepositItemPayload = {
   id: number;
-  coinValue: number;
+  coin_value: number;
 };
 
 export type CreateDepositItemsPayload = CreateDepositItemPayload[];
