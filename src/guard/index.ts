@@ -1,7 +1,16 @@
 import { VercelRequest } from "@vercel/node";
 import { MAX_DELAY } from "../constant";
+import { isPostMethod } from "./isPostMethod";
 
 export const guard = (req: VercelRequest) => {
+  const { success, message } = isPostMethod(req);
+  if (!success) {
+    return {
+      success: false,
+      message: message,
+    };
+  }
+
   const adminId = process.env.ADMIN_ID;
   if (!adminId) throw new Error("Admin ID not found");
 
