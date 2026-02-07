@@ -5,6 +5,9 @@ import { isPostMethod } from "../src/guard/isPostMethod";
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   try {
+    const adminId = process.env.ADMIN_ID;
+    if (!adminId) throw new Error("Admin ID not found");
+
     const { success, message } = isPostMethod(req);
     if (!success) {
       return res.status(200).json({
@@ -14,11 +17,13 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
     const body = req.body;
 
-    if (body.type === "new_coin" && body.exchange === CRYPTO_EXCHANGE.BINANCE) {
-      const adminId = process.env.ADMIN_ID;
-      if (!adminId) throw new Error("Admin ID not found");
+    const text = body.message;
 
-      const text = body.message;
+    if (text) {
+      await bot.telegram.sendMessage(adminId, text);
+    }
+
+    if (body.type === "new_coin" && body.exchange === CRYPTO_EXCHANGE.BINANCE) {
       await bot.telegram.sendMessage(adminId, text);
     }
 
