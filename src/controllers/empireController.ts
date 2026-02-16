@@ -58,19 +58,22 @@ export const getActiveDepositController = async (): Promise<string> => {
     const activeTrades = await getActiveTradesService();
 
     if (!activeTrades.data.deposits.length) {
-      throw new Error("No active deposits");
+      throw new Error("No deposits found");
     }
 
-    const depositCompleteLength = activeTrades.data.deposits.filter(
+    const depositCompleted = activeTrades.data.deposits.filter(
       (d) => d.status === TRADE_STATUS.COMPLETED_BUT_REVERSIBLE,
-    ).length;
+    );
 
-    const totalPending = activeTrades.data.deposits
-      .filter((d) => d.status === 13)
-      .reduce((sum, d) => sum + (d.total_value ?? 0), 0);
+    const totalValueCompleted = convertToUsd(
+      depositCompleted.reduce(
+        (initVal, d) => initVal + (d.total_value ?? 0),
+        0,
+      ),
+    );
 
-    const currentDeposit = activeTrades.data.deposits
-      .filter((d) => d.status !== 13)
+    const pendingDeposits = activeTrades.data.deposits
+      .filter((d) => d.status !== TRADE_STATUS.COMPLETED_BUT_REVERSIBLE)
       .sort((a, b) => a.id - b.id)
       .map((d) => {
         const deposit = [
@@ -83,11 +86,12 @@ export const getActiveDepositController = async (): Promise<string> => {
         ];
 
         return deposit.filter(Boolean).join(" - ");
-      });
+      })
+      .join("\n");
 
     const returnData = [
-      ...(currentDeposit.length ? [`Current deposit: ${currentDeposit}`] : []),
-      `Pending (${depositCompleteLength}): ${convertToUsd(totalPending)}$`,
+      ...(pendingDeposits.length ? [pendingDeposits] : []),
+      `Confirmed (${depositCompleted.length}): ${totalValueCompleted}$`,
     ].join("\n");
 
     return returnData;
