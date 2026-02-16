@@ -10,46 +10,6 @@ import {
 import { BlockUserPayload } from "../types/empire/BlockUser";
 import { convertToUsd } from "../utils";
 
-// export const createDepositController = async ({
-//   price,
-// }: {
-//   price: number;
-// }): Promise<void> => {
-//   try {
-//     const activeTrades = await getActiveTradesService();
-
-//     const depositedItems: number[] = [];
-
-//     for (const item of activeTrades.data.deposits) {
-//       if (item.status !== TRADE_STATUS.COMPLETED_BUT_REVERSIBLE) {
-//         throw new Error("Already have deposit");
-//       }
-//       depositedItems.push(item.item_id);
-//     }
-
-//     const { data } = await getCs2InventoryService();
-
-//     const items = data
-//       .filter((item) => item.market_name === ITEM_NAME)
-//       .filter((item) => !depositedItems.includes(item.id));
-
-//     if (!items.length) throw new Error("Out of stock");
-
-//     const item = items[0];
-
-//     const coinValue = Number((price / RATE).toFixed(2).replace(".", ""));
-
-//     await createDepositService([
-//       {
-//         id: item.id,
-//         coin_value: coinValue,
-//       },
-//     ]);
-//   } catch (error) {
-//     throw error;
-//   }
-// };
-
 export const getActiveDepositController = async (): Promise<string> => {
   try {
     const activeTrades = await getActiveTradesService();
