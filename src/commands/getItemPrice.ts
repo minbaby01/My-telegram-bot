@@ -14,9 +14,7 @@ export const getItemPrice = async (ctx: Context) => {
     if (!success) throw error.message;
     const msg = await getItemPriceController(data.itemNameList);
 
-    return ctx.reply(msg, {
-      parse_mode: "HTML",
-    });
+    return ctx.reply(msg);
   } catch (err) {
     return ctx.reply(getErrorMessage(err));
   }
