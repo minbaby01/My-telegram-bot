@@ -8,7 +8,6 @@ export const help = async (ctx: Context) => {
 /deposit {price}
 /get
 /help
-/send
 /start
 /status
 `;

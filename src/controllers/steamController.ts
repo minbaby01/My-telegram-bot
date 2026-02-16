@@ -1,45 +1,5 @@
 import pLimit from "p-limit";
-import {
-  getActiveTradesService,
-  markAsSentService,
-} from "../services/empireService";
-import {
-  // cleanUp,
-  // confirmTradeOfferService,
-  // createTradeOfferService,
-  getItemPriceService,
-  // loginSteamService,
-} from "../services/steamService";
-
-// export const createAndConfirmTradeOfferController = async () => {
-//   try {
-//     const data = await getActiveTradesService();
-//     const deposits: DepositCustom[] = data.deposits;
-//     if (!deposits.length) throw new Error("No active deposits");
-
-//     const offerToSend = deposits.find((d) => d.status === 3);
-//     if (!offerToSend) throw new Error("No offer to send");
-//     if (!offerToSend?.item) throw new Error("Can not find asset_id");
-
-//     await loginSteamService();
-
-//     const tradeOfferId = await createTradeOfferService({
-//       tradeUrl: offerToSend.metadata.trade_url as any,
-//       assetIds: [offerToSend.item.asset_id],
-//     });
-
-//     const confirmTradeOffer = await confirmTradeOfferService({
-//       tradeOfferId: tradeOfferId,
-//     });
-//     if (!confirmTradeOffer) throw new Error("Confirm failed");
-
-//     await cleanUp();
-//     await markAsSentService({ depositId: offerToSend.id.toString() });
-//     return confirmTradeOffer;
-//   } catch (error) {
-//     throw error;
-//   }
-// };
+import { getItemPriceService } from "../services/steamService";
 
 export const getItemPriceController = async (
   itemNameList: string[],
