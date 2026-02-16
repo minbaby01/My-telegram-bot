@@ -10,6 +10,7 @@ import {
   ConfirmTradeOfferPayload,
   MaData,
   ItemPriceData,
+  GetItemPricePayload,
 } from "../types/steam";
 
 // const MADATA = process.env.MADATA;
@@ -129,9 +130,11 @@ import {
 //   }
 // };
 
-export const getItemPriceService = async () => {
+export const getItemPriceService = async ({
+  itemName,
+}: GetItemPricePayload) => {
   const { data } = await steamApi.get<ItemPriceData>(
-    `/priceoverview/?appid=730&currency=1&market_hash_name=${process.env.ITEM_NAME}`
+    `/priceoverview/?appid=730&currency=1&market_hash_name=${itemName}`,
   );
   return data;
 };

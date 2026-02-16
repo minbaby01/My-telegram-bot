@@ -1,3 +1,4 @@
+import pLimit from "p-limit";
 import {
   getActiveTradesService,
   markAsSentService,
@@ -40,23 +41,36 @@ import {
 //   }
 // };
 
-export const getItemPriceController = async (): Promise<string> => {
+export const getItemPriceController = async (
+  itemNameList: string[],
+): Promise<string> => {
   try {
-    const itemPrice = await getItemPriceService();
-    if (!itemPrice.success) throw new Error("Steam error");
+    const limit = pLimit(2);
 
-    const steamPrice = Number(itemPrice.lowest_price.replace("$", ""));
+    const itemPriceList = await Promise.all(
+      itemNameList.map((itemName) =>
+        limit(async () => {
+          const itemPrice = await getItemPriceService({ itemName });
+          return { ...itemPrice, itemName: itemName };
+        }),
+      ),
+    );
 
-    const formatData = [
-      `Steam price: ${steamPrice} $`,
-      `Volume: ${itemPrice.volume}`,
-      `Rate 0.75: ${(steamPrice * 0.75).toFixed(2)} $`,
-      `Rate 0.7: ${(steamPrice * 0.7).toFixed(2)} $`,
-      `Rate 0.68: ${(steamPrice * 0.68).toFixed(2)} $`,
-      `Rate 0.65: ${(steamPrice * 0.65).toFixed(2)} $`,
-    ].join("\n");
+    const validItemResponse = itemPriceList.filter((item) => item.volume);
 
-    return formatData;
+    const formatMsg = validItemResponse
+      .map((item) => {
+        const i = [
+          `Item: ${item.itemName}`,
+          `Price: ${item.median_price}`,
+          `Volume: ${item.volume}`,
+        ];
+
+        return i.filter(Boolean).join("\n");
+      })
+      .join("\n\n");
+
+    return formatMsg;
   } catch (error) {
     throw error;
   }

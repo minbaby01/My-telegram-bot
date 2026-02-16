@@ -19,3 +19,7 @@ export type ItemPriceData = {
   volume: string;
   median_price: string;
 };
+
+export type GetItemPricePayload = {
+  itemName: string;
+};
