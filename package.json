@@ -1,6 +1,6 @@
 {
   "main": "src/index.ts",
-  "type": "commonjs",
+  "type": "module",
   "dependencies": {
     "@vercel/node": "^5.5.16",
     "axios": "^1.10.0",
