@@ -15,9 +15,7 @@ export const cancel = async (ctx: CustomContext) => {
 
     await cancelDepositController(data.orderIds);
 
-    return ctx.reply("Type `/status` to check", {
-      parse_mode: "MarkdownV2",
-    });
+    return ctx.reply("Type `/status` to check");
   } catch (err) {
     return ctx.reply(getErrorMessage(err));
   }
