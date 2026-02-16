@@ -7,14 +7,13 @@ import { GetCs2InventoryResponse } from "../types/empire/GetCs2Inventory";
 import { MarkAsSentPayload } from "../types/empire/MarkAsSent";
 
 export const getCs2InventoryService = async () => {
-  const { data } = await empireApi.get<GetCs2InventoryResponse>(
-    `/user/inventory`
-  );
+  const { data } =
+    await empireApi.get<GetCs2InventoryResponse>(`/user/inventory`);
   return data;
 };
 
 export const createDepositService = async (
-  items: CreateDepositItemsPayload
+  items: CreateDepositItemsPayload,
 ): Promise<void> => {
   await empireApi.post(`/deposit`, {
     items: items,
@@ -27,14 +26,16 @@ export const getActiveTradesService = async () => {
 };
 
 export const cancelDepositService = async ({
-  depositId,
+  depositIds: depositIds,
 }: CancelDepositPayload): Promise<void> => {
-  await empireApi.post(`/deposit/${depositId}/cancel`);
+  await empireApi.post(`/deposit/cancel`, {
+    ids: depositIds,
+  });
 };
 
 export const blockUserService = async ({ steamId }: BlockUserPayload) => {
   const { data } = await empireApi.post<BlockUserResponse>(
-    `/block-list/${steamId}`
+    `/block-list/${steamId}`,
   );
   return data;
 };

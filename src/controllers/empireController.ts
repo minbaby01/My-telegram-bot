@@ -62,7 +62,7 @@ export const getActiveDepositController = async (): Promise<string> => {
     }
 
     const depositCompleteLength = activeTrades.data.deposits.filter(
-      (d) => d.status === TRADE_STATUS.COMPLETED_BUT_REVERSIBLE
+      (d) => d.status === TRADE_STATUS.COMPLETED_BUT_REVERSIBLE,
     ).length;
 
     const totalPending = activeTrades.data.deposits
@@ -96,16 +96,28 @@ export const getActiveDepositController = async (): Promise<string> => {
   }
 };
 
-export const cancelDepositController = async (): Promise<void> => {
+export const cancelDepositController = async (
+  depositIds: "all" | number[],
+): Promise<void> => {
+  let ids: number[] = [];
+
   try {
-    const activeTrades = await getActiveTradesService();
-    if (!activeTrades.data.deposits.length) {
-      throw new Error("No active deposit");
+    if (depositIds === "all") {
+      const activeTrades = await getActiveTradesService();
+      const pendingDeposits = activeTrades.data.deposits.filter(
+        (d) => d.status === TRADE_STATUS.PENDING,
+      );
+
+      if (!pendingDeposits.length) {
+        throw new Error("No active pending deposits to cancel");
+      }
+
+      ids = pendingDeposits.map((d) => d.id);
+    } else {
+      ids = depositIds;
     }
 
-    const depositId = activeTrades.data.deposits[0].id;
-
-    await cancelDepositService({ depositId });
+    await cancelDepositService({ depositIds: ids });
   } catch (error) {
     throw error;
   }

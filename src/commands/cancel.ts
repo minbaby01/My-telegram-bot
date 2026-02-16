@@ -1,12 +1,23 @@
-import { Context } from "telegraf";
+import { CustomContext } from "../types/context";
 import { cancelDepositController } from "../controllers/empireController";
 import { getErrorMessage } from "../utils";
+import { cancelSchema } from "../schemas/cancelSchema";
 
-export const cancel = async (ctx: Context) => {
+export const cancel = async (ctx: CustomContext) => {
+  const orderIds = ctx?.payload;
+
   try {
-    await cancelDepositController();
+    const { data, success, error } = cancelSchema.safeParse({
+      orderIds: orderIds,
+    });
 
-    return ctx.reply(`Cancel maybe OK`);
+    if (!success) throw error.message;
+
+    await cancelDepositController(data.orderIds);
+
+    return ctx.reply("Type `/status` to check", {
+      parse_mode: "MarkdownV2",
+    });
   } catch (err) {
     return ctx.reply(getErrorMessage(err));
   }

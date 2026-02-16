@@ -1,3 +1,3 @@
 export type CancelDepositPayload = {
-  depositId: number;
+  depositIds: number[];
 };
