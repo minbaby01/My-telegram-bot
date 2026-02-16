@@ -1,4 +1,4 @@
-import { createDepositController } from "../controllers/empireController";
+// import { createDepositController } from "../controllers/empireController";
 import { priceSchema } from "../schemas/priceSchema";
 import { CustomContext } from "../types/context";
 import { getErrorMessage } from "../utils";
@@ -11,7 +11,7 @@ export const deposit = async (ctx: CustomContext) => {
 
     if (!success) throw error.message;
 
-    await createDepositController({ price: data.price });
+    // await createDepositController({ price: data.price });
 
     return ctx.reply(`Wait 5s then /status`);
   } catch (err) {
