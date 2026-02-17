@@ -3,7 +3,7 @@ import { getItemPriceController } from "../controllers/steamController";
 import { getErrorMessage } from "../utils";
 import { getItemPriceSchema } from "../schemas/getItemPriceSchema";
 
-export const getItemPrice = async (ctx: Context) => {
+export const get = async (ctx: Context) => {
   const itemNameList = process.env.ITEM_NAME_LIST;
 
   try {
