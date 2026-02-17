@@ -4,8 +4,7 @@ export const help = async (ctx: Context) => {
   const text = `
 /block {id} 
 /cancel
-/count
-/deposit {price}
+/inventory
 /get
 /help
 /start

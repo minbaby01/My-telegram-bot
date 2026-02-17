@@ -1,9 +1,7 @@
-import { RATE } from "../constant";
 import { TRADE_STATUS } from "../constant/tradeStatus";
 import {
   blockUserService,
   cancelDepositService,
-  createDepositService,
   getActiveTradesService,
   getCs2InventoryService,
 } from "../services/empireService";
@@ -94,25 +92,42 @@ export const blockUserController = async ({
   }
 };
 
-// export const countController = async (): Promise<number> => {
-//   try {
-//     const activeTrades = await getActiveTradesService();
+export const getInventoryController = async (): Promise<any> => {
+  try {
+    const activeTrades = await getActiveTradesService();
 
-//     const depositedItemIds: number[] = [];
+    const depositedItemIds: number[] = [];
 
-//     for (const item of activeTrades.data.deposits) {
-//       if (item.status === TRADE_STATUS.PROCESSING) continue;
-//       depositedItemIds.push(item.item_id);
-//     }
+    for (const item of activeTrades.data.deposits) {
+      if (item.status === TRADE_STATUS.PROCESSING) continue;
+      depositedItemIds.push(item.item_id);
+    }
 
-//     const { data } = await getCs2InventoryService();
+    const { data } = await getCs2InventoryService();
 
-//     const items = data
-//       .filter((item) => item.market_name === ITEM_NAME)
-//       .filter((item) => !depositedItemIds.includes(item.id));
+    const items = data
+      .filter((item) => !depositedItemIds.includes(item.id))
+      .filter((item) => item.market_value != -1);
 
-//     return items.length;
-//   } catch (error) {
-//     throw error;
-//   }
-// };
+    const countMap = new Map();
+
+    items.forEach((item) => {
+      const name = item.market_name;
+      countMap.set(name, (countMap.get(name) || 0) + 1);
+    });
+
+    const result = Array.from(countMap, ([name, count]) => ({ name, count }));
+
+    const formatMsg = result
+      .map((item) => {
+        const i = [`${item.name}`, `x${item.count}`];
+
+        return i.join(" ");
+      })
+      .join("\n");
+
+    return formatMsg;
+  } catch (error) {
+    throw error;
+  }
+};
