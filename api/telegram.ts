@@ -1,6 +1,6 @@
 import { VercelRequest, VercelResponse } from "@vercel/node";
-import { bot } from "../src/index";
-import { guard } from "../src/guard";
+import { bot } from "../src/bot.js";
+import { guard } from "../src/guard/index.js";
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   try {

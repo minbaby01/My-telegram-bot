@@ -1,12 +1,12 @@
-import { TRADE_STATUS } from "../constant/tradeStatus";
+import { TRADE_STATUS } from "../constant/tradeStatus.js";
 import {
   blockUserService,
   cancelDepositService,
   getActiveTradesService,
   getCs2InventoryService,
-} from "../services/empireService";
-import { BlockUserPayload } from "../types/empire/BlockUser";
-import { convertToUsd } from "../utils";
+} from "../services/empireService.js";
+import { BlockUserPayload } from "../types/empire/BlockUser.js";
+import { convertToUsd } from "../utils/utils.js";
 
 export const getActiveDepositController = async (): Promise<string> => {
   try {

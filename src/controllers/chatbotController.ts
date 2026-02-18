@@ -1,8 +1,8 @@
 import { Context } from "telegraf";
-import { PROVIDER_CHATBOT } from "../constant/providerChatbot";
-import { geminiService } from "../services/geminiSerivice";
-import { textSchema } from "../schemas/textSchema";
-import { getErrorMessage } from "../utils";
+import { PROVIDER_CHATBOT } from "../constant/providerChatbot.js";
+import { geminiService } from "../services/geminiSerivice.js";
+import { textSchema } from "../schemas/textSchema.js";
+import { getErrorMessage } from "../utils/utils.js";
 
 export const chatbotController = async (ctx: Context) => {
   const provider = PROVIDER_CHATBOT.GEMINI;

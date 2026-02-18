@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { STRING_NUMBER_REGEX } from "../constant";
+import { STRING_NUMBER_REGEX } from "../constant/constant.js";
 
 export const cancelSchema = z.object({
   orderIds: z

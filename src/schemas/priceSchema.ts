@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { LOWEST_PRICE } from "../constant";
+import { LOWEST_PRICE } from "../constant/constant.js";
 
 export const priceSchema = z.object({
   price: z
@@ -12,7 +12,7 @@ export const priceSchema = z.object({
       },
       {
         message: `Price must be a valid number greater than ${LOWEST_PRICE}`,
-      }
+      },
     )
     .transform((val) => parseFloat(val)),
 });

@@ -1,6 +1,6 @@
 import { Context } from "telegraf";
-import { getActiveDepositController } from "../controllers/empireController";
-import { getErrorMessage } from "../utils";
+import { getActiveDepositController } from "../controllers/empireController.js";
+import { getErrorMessage } from "../utils/utils.js";
 
 export const status = async (ctx: Context) => {
   try {

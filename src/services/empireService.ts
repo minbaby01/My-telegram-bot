@@ -1,10 +1,13 @@
-import { empireApi } from "../lib/empireApi";
-import { BlockUserPayload, BlockUserResponse } from "../types/empire/BlockUser";
-import { CancelDepositPayload } from "../types/empire/CancelDeposit";
-import { CreateDepositItemsPayload } from "../types/empire/CreateDeposit";
-import { GetActiveTradeResponse } from "../types/empire/GetActiveTrades";
-import { GetCs2InventoryResponse } from "../types/empire/GetCs2Inventory";
-import { MarkAsSentPayload } from "../types/empire/MarkAsSent";
+import { empireApi } from "../lib/empireApi.js";
+import {
+  BlockUserPayload,
+  BlockUserResponse,
+} from "../types/empire/BlockUser.js";
+import { CancelDepositPayload } from "../types/empire/CancelDeposit.js";
+import { CreateDepositItemsPayload } from "../types/empire/CreateDeposit.js";
+import { GetActiveTradeResponse } from "../types/empire/GetActiveTrades.js";
+import { GetCs2InventoryResponse } from "../types/empire/GetCs2Inventory.js";
+import { MarkAsSentPayload } from "../types/empire/MarkAsSent.js";
 
 export const getCs2InventoryService = async () => {
   const { data } =

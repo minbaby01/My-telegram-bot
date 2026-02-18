@@ -1,7 +1,7 @@
-import { blockUserController } from "../controllers/empireController";
-import { blockSchema } from "../schemas/blockSchema";
-import { CustomContext } from "../types/context";
-import { getErrorMessage } from "../utils";
+import { blockUserController } from "../controllers/empireController.js";
+import { blockSchema } from "../schemas/blockSchema.js";
+import { CustomContext } from "../types/context.js";
+import { getErrorMessage } from "../utils/utils.js";
 
 export const block = async (ctx: CustomContext) => {
   const userId = ctx?.payload;

@@ -1,4 +1,4 @@
-import { RATE } from "../constant";
+import { RATE } from "../constant/constant.js";
 
 export const convertToUsd = (coinValue: number) => {
   return ((coinValue * RATE) / 100).toFixed(2);

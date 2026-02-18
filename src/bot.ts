@@ -1,13 +1,13 @@
 import "dotenv/config";
 import { Telegraf } from "telegraf";
-import { block } from "./commands/block";
-import { help } from "./commands/help";
-import { status } from "./commands/status";
-import { cancel } from "./commands/cancel";
-import { start } from "./commands/start";
-import { get } from "./commands/getItemPrice";
-import { inventory } from "./commands/inventory";
-import { chatbotController } from "./controllers/chatbotController";
+import { block } from "./commands/block.js";
+import { help } from "./commands/help.js";
+import { status } from "./commands/status.js";
+import { cancel } from "./commands/cancel.js";
+import { start } from "./commands/start.js";
+import { get } from "./commands/getItemPrice.js";
+import { inventory } from "./commands/inventory.js";
+import { chatbotController } from "./controllers/chatbotController.js";
 
 const TOKEN = process.env.BOT_TOKEN;
 if (!TOKEN) throw new Error("Tele token not found");

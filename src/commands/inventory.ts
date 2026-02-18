@@ -1,6 +1,6 @@
 import { Context } from "telegraf";
-import { getInventoryController } from "../controllers/empireController";
-import { getErrorMessage } from "../utils";
+import { getInventoryController } from "../controllers/empireController.js";
+import { getErrorMessage } from "../utils/utils.js";
 
 export const inventory = async (ctx: Context) => {
   try {

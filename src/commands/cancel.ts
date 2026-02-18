@@ -1,7 +1,7 @@
-import { CustomContext } from "../types/context";
-import { cancelDepositController } from "../controllers/empireController";
-import { getErrorMessage } from "../utils";
-import { cancelSchema } from "../schemas/cancelSchema";
+import { CustomContext } from "../types/context.js";
+import { cancelDepositController } from "../controllers/empireController.js";
+import { getErrorMessage } from "../utils/utils.js";
+import { cancelSchema } from "../schemas/cancelSchema.js";
 
 export const cancel = async (ctx: CustomContext) => {
   const orderIds = ctx?.payload;

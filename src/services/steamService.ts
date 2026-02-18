@@ -1,5 +1,5 @@
-import { steamApi } from "../lib/steamApi";
-import { ItemPriceData, GetItemPricePayload } from "../types/steam";
+import { steamApi } from "../lib/steamApi.js";
+import { ItemPriceData, GetItemPricePayload } from "../types/steam.js";
 
 export const getItemPriceService = async ({
   itemName,

@@ -1,5 +1,5 @@
 import pLimit from "p-limit";
-import { getItemPriceService } from "../services/steamService";
+import { getItemPriceService } from "../services/steamService.js";
 
 export const getItemPriceController = async (
   itemNameList: string[],

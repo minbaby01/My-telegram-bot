@@ -1,7 +1,7 @@
 import { VercelRequest, VercelResponse } from "@vercel/node";
-import { bot } from "../src/index";
-import { CRYPTO_EXCHANGE } from "../src/constant/cryptoExchange";
-import { isPostMethod } from "../src/guard/isPostMethod";
+import { bot } from "../src/bot.js";
+import { CRYPTO_EXCHANGE } from "../src/constant/cryptoExchange.js";
+import { isPostMethod } from "../src/guard/isPostMethod.js";
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   try {

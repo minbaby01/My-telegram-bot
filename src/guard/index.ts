@@ -1,6 +1,6 @@
 import { VercelRequest } from "@vercel/node";
-import { MAX_DELAY } from "../constant";
-import { isPostMethod } from "./isPostMethod";
+import { MAX_DELAY } from "../constant/constant.js";
+import { isPostMethod } from "./isPostMethod.js";
 
 export const guard = (req: VercelRequest) => {
   const { success, message } = isPostMethod(req);

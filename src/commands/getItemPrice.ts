@@ -1,7 +1,7 @@
 import { Context } from "telegraf";
-import { getItemPriceController } from "../controllers/steamController";
-import { getErrorMessage } from "../utils";
-import { getItemPriceSchema } from "../schemas/getItemPriceSchema";
+import { getItemPriceController } from "../controllers/steamController.js";
+import { getErrorMessage } from "../utils/utils.js";
+import { getItemPriceSchema } from "../schemas/getItemPriceSchema.js";
 
 export const get = async (ctx: Context) => {
   const itemNameList = process.env.ITEM_NAME_LIST;
