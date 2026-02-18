@@ -33,5 +33,5 @@ export const chatbotController = async (ctx: Context) => {
     response = getErrorMessage(error);
   }
 
-  return ctx.reply(response, { parse_mode: "HTML" });
+  return ctx.reply(response, { parse_mode: "Markdown" });
 };
