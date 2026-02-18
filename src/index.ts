@@ -7,9 +7,10 @@ import { cancel } from "./commands/cancel";
 import { start } from "./commands/start";
 import { get } from "./commands/getItemPrice";
 import { inventory } from "./commands/inventory";
+import { chatbotController } from "./controllers/chatbotController";
 
 const TOKEN = process.env.BOT_TOKEN;
-if (!TOKEN) throw new Error("Tele bot token not found");
+if (!TOKEN) throw new Error("Tele token not found");
 
 export const bot = new Telegraf(TOKEN);
 
@@ -20,3 +21,5 @@ bot.command("status", status);
 bot.command("start", start);
 bot.command("get", get);
 bot.command("inventory", inventory);
+
+bot.on("message", chatbotController);

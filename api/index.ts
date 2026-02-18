@@ -13,7 +13,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
     const body = req.body;
 
-    await bot.handleUpdate(body);
+    bot.handleUpdate(body);
 
     return res.status(200).json({
       message: "OK",
