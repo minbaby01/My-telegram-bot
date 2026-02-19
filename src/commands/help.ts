@@ -10,5 +10,5 @@ export const help = async (ctx: Context) => {
 /start
 /status
 `;
-  return ctx.reply(text);
+  return await ctx.reply(text);
 };

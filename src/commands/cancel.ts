@@ -15,8 +15,8 @@ export const cancel = async (ctx: Context) => {
 
     await cancelDepositController(data.orderIds);
 
-    return ctx.reply("Type `/status` to check");
+    return await ctx.reply("Type `/status` to check");
   } catch (err) {
-    return ctx.reply(getErrorMessage(err));
+    return await ctx.reply(getErrorMessage(err));
   }
 };

@@ -16,7 +16,7 @@ export const chatbotController = async (ctx: Context) => {
   });
 
   if (!success) {
-    return ctx.reply(error.message);
+    return await ctx.reply(error.message);
   }
 
   try {
@@ -39,5 +39,5 @@ export const chatbotController = async (ctx: Context) => {
 
   const removeMarkdown = removeMd(response);
 
-  return ctx.reply(removeMarkdown);
+  return await ctx.reply(removeMarkdown);
 };

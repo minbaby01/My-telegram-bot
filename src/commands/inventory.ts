@@ -5,8 +5,8 @@ import { getErrorMessage } from "../utils/utils.js";
 export const inventory = async (ctx: Context) => {
   try {
     const inventory = await getInventoryController();
-    return ctx.reply(`${inventory}`);
+    return await ctx.reply(`${inventory}`);
   } catch (err) {
-    return ctx.reply(getErrorMessage(err));
+    return await ctx.reply(getErrorMessage(err));
   }
 };

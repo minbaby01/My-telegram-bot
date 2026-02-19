@@ -6,8 +6,8 @@ export const status = async (ctx: Context) => {
   try {
     const data = await getActiveDepositController();
 
-    return ctx.reply(data);
+    return await ctx.reply(data);
   } catch (err) {
-    return ctx.reply(getErrorMessage(err));
+    return await ctx.reply(getErrorMessage(err));
   }
 };

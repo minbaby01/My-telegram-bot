@@ -14,8 +14,8 @@ export const get = async (ctx: Context) => {
     if (!success) throw error.message;
     const msg = await getItemPriceController(data.itemNameList);
 
-    return ctx.reply(msg);
+    return await ctx.reply(msg);
   } catch (err) {
-    return ctx.reply(getErrorMessage(err));
+    return await ctx.reply(getErrorMessage(err));
   }
 };

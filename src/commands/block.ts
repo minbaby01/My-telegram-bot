@@ -15,8 +15,8 @@ export const block = async (ctx: Context) => {
 
     await blockUserController({ steamId: data.steamId });
 
-    return ctx.reply(`Blocked`);
+    return await ctx.reply(`Blocked`);
   } catch (err) {
-    return ctx.reply(getErrorMessage(err));
+    return await ctx.reply(getErrorMessage(err));
   }
 };
