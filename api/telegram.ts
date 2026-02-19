@@ -11,11 +11,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       });
     }
 
-    await cb(req, res);
-
-    return res.status(200).json({
-      message: "OK",
-    });
+    return await cb(req, res);
   } catch (err) {
     console.error(err);
     return res.status(200).json({

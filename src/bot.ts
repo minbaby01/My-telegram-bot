@@ -11,6 +11,8 @@ import { chatbotController } from "./controllers/chatbotController.js";
 
 const BOT_TOKEN = process.env.BOT_TOKEN;
 if (!BOT_TOKEN) throw new Error("Tele token not found");
+const SECRET_TOKEN = process.env.TG_SECRET_TOKEN;
+if (!SECRET_TOKEN) throw new Error("Secret token not found");
 
 export const bot = new Bot(BOT_TOKEN);
 
@@ -24,4 +26,7 @@ bot.command("inventory", inventory);
 
 bot.on("message", chatbotController);
 
-export const cb = webhookCallback(bot, "https");
+export const cb = webhookCallback(bot, "https", {
+  timeoutMilliseconds: 30000,
+  secretToken: SECRET_TOKEN,
+});
