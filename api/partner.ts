@@ -20,11 +20,11 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     const text = body.message;
 
     if (text) {
-      await bot.telegram.sendMessage(adminId, text);
+      await bot.api.sendMessage(adminId, text);
     }
 
     if (body.type === "new_coin" && body.exchange === CRYPTO_EXCHANGE.BINANCE) {
-      await bot.telegram.sendMessage(adminId, text);
+      await bot.api.sendMessage(adminId, text);
     }
 
     return res.status(200).json({

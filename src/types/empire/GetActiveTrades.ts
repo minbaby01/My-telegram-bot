@@ -1,4 +1,4 @@
-import { Sticker } from "./GetCs2Inventory";
+import { Sticker } from "./GetCs2Inventory.js";
 
 export type GetActiveTradeResponse = {
   success: boolean;

@@ -1,10 +1,10 @@
-import { CustomContext } from "../types/context.js";
+import { Context } from "grammy";
 import { cancelDepositController } from "../controllers/empireController.js";
 import { getErrorMessage } from "../utils/utils.js";
 import { cancelSchema } from "../schemas/cancelSchema.js";
 
-export const cancel = async (ctx: CustomContext) => {
-  const orderIds = ctx?.payload;
+export const cancel = async (ctx: Context) => {
+  const orderIds = ctx.match;
 
   try {
     const { data, success, error } = cancelSchema.safeParse({

@@ -1,4 +1,4 @@
-import { Context } from "telegraf";
+import { Context } from "grammy";
 import { getItemPriceController } from "../controllers/steamController.js";
 import { getErrorMessage } from "../utils/utils.js";
 import { getItemPriceSchema } from "../schemas/getItemPriceSchema.js";

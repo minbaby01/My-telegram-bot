@@ -1,4 +1,4 @@
-import { Context } from "telegraf";
+import { Context } from "grammy";
 import { getActiveDepositController } from "../controllers/empireController.js";
 import { getErrorMessage } from "../utils/utils.js";
 

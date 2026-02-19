@@ -1,10 +1,10 @@
+import { Context } from "grammy";
 import { blockUserController } from "../controllers/empireController.js";
 import { blockSchema } from "../schemas/blockSchema.js";
-import { CustomContext } from "../types/context.js";
 import { getErrorMessage } from "../utils/utils.js";
 
-export const block = async (ctx: CustomContext) => {
-  const userId = ctx?.payload;
+export const block = async (ctx: Context) => {
+  const userId = ctx.match;
 
   try {
     const { data, success, error } = blockSchema.safeParse({

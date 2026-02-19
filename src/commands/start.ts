@@ -1,4 +1,4 @@
-import { Context } from "telegraf";
+import { Context } from "grammy";
 
 export const start = async (ctx: Context) => {
   const text = "@korumox";

@@ -36,7 +36,7 @@ export const openRouterService = async (content: string): Promise<string> => {
   }
 
   const result = openrouter.callModel({
-    model: "stepfun/step-3.5-flash:free",
+    model: "openrouter/free",
     instructions: SYSTEM_INSTRUCTION,
     text: {
       format: {
