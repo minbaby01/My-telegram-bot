@@ -1,9 +1,6 @@
 import { VercelRequest, VercelResponse } from "@vercel/node";
-import { bot } from "../src/bot.js";
+import { cb } from "../src/bot.js";
 import { guard } from "../src/guard/guard.js";
-import { webhookCallback } from "grammy";
-
-const handleUpdate = webhookCallback(bot, "http");
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   try {
@@ -14,9 +11,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       });
     }
 
-    const body = req.body;
-
-    await handleUpdate(body, res);
+    await cb(req, res);
 
     return res.status(200).json({
       message: "OK",

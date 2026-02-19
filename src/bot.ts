@@ -1,5 +1,5 @@
 import "dotenv/config";
-import { Bot } from "grammy";
+import { Bot, webhookCallback } from "grammy";
 import { block } from "./commands/block.js";
 import { help } from "./commands/help.js";
 import { status } from "./commands/status.js";
@@ -23,3 +23,5 @@ bot.command("get", get);
 bot.command("inventory", inventory);
 
 bot.on("message", chatbotController);
+
+export const cb = webhookCallback(bot, "https");
