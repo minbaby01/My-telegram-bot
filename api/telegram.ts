@@ -3,7 +3,7 @@ import { bot } from "../src/bot.js";
 import { guard } from "../src/guard/guard.js";
 import { webhookCallback } from "grammy";
 
-const handleUpdate = webhookCallback(bot, "std/http");
+const handleUpdate = webhookCallback(bot, "http");
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   try {
@@ -16,7 +16,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
     const body = req.body;
 
-    await handleUpdate(body);
+    await handleUpdate(body, res);
 
     return res.status(200).json({
       message: "OK",
