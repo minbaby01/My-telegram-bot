@@ -3,6 +3,7 @@
   "type": "module",
   "dependencies": {
     "@google/genai": "^1.41.0",
+    "@openrouter/sdk": "^0.8.0",
     "@vercel/node": "^5.5.16",
     "axios": "^1.10.0",
     "dotenv": "^17.2.0",

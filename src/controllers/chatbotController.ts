@@ -1,11 +1,11 @@
 import { Context } from "telegraf";
 import { PROVIDER_CHATBOT } from "../constant/providerChatbot.js";
-import { geminiService } from "../services/geminiSerivice.js";
+import { geminiService, openRouterService } from "../services/gptSerivice.js";
 import { textSchema } from "../schemas/textSchema.js";
 import { getErrorMessage } from "../utils/utils.js";
 
 export const chatbotController = async (ctx: Context) => {
-  const provider = PROVIDER_CHATBOT.GEMINI;
+  const provider = PROVIDER_CHATBOT.OPEN_ROUTER;
   let response: string;
 
   const msg = ctx.text;
@@ -22,8 +22,11 @@ export const chatbotController = async (ctx: Context) => {
     await ctx.sendChatAction("typing");
 
     switch (provider) {
-      case PROVIDER_CHATBOT.GEMINI:
-        response = await geminiService(data.msg);
+      // case PROVIDER_CHATBOT.GEMINI:
+      //   response = await geminiService(data.msg);
+      //   break;
+      case PROVIDER_CHATBOT.OPEN_ROUTER:
+        response = await openRouterService(data.msg);
         break;
       default:
         response = "Hello";
@@ -33,5 +36,5 @@ export const chatbotController = async (ctx: Context) => {
     response = getErrorMessage(error);
   }
 
-  return ctx.reply(response, { parse_mode: "Markdown" });
+  return ctx.reply(response);
 };
