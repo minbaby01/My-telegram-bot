@@ -28,15 +28,15 @@ const OPEN_ROUTER_API_KEY = process.env.OPEN_ROUTER_API_KEY;
 const openrouter = new OpenRouter({
   apiKey: OPEN_ROUTER_API_KEY,
 });
+const OPEN_ROUTER_MODEL = process.env.OPEN_ROUTER_MODEL;
 
 export const openRouterService = async (content: string): Promise<string> => {
   if (!openrouter) {
-    console.error("OPEN_ROUTER_API_KEY missing");
     return "OPEN_ROUTER_API_KEY missing";
   }
 
   const result = openrouter.callModel({
-    model: "openrouter/free",
+    model: OPEN_ROUTER_MODEL || "openrouter/free",
     instructions: SYSTEM_INSTRUCTION,
     text: {
       format: {
