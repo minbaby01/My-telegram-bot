@@ -1,22 +1,11 @@
 import { cb } from "../src/bot.js";
 import { VercelRequest, VercelResponse } from "@vercel/node";
-import { Receiver } from "@upstash/qstash";
-
-const receiver = new Receiver({
-  currentSigningKey: process.env.QSTASH_CURRENT_SIGNING_KEY!,
-  nextSigningKey: process.env.QSTASH_NEXT_SIGNING_KEY!,
-});
 
 export default async function worker(req: VercelRequest, res: VercelResponse) {
   try {
-    const rawBody = req.body;
+    const signature = req.headers["upstash-signature"] as string;
 
-    const isValid = await receiver.verify({
-      signature: req.headers["upstash-signature"] as string,
-      body: rawBody,
-    });
-
-    if (!isValid) {
+    if (!signature) {
       return res.status(401).send("Unauthorized");
     }
 
