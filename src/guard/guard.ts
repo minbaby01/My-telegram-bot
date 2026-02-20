@@ -14,6 +14,17 @@ export const guard = (req: VercelRequest) => {
   const adminId = process.env.ADMIN_ID;
   if (!adminId) throw new Error("Admin ID not found");
 
+  const SECRET_TOKEN = process.env.TG_SECRET_TOKEN;
+  if (!SECRET_TOKEN) throw new Error("Secret token not found");
+  const secretTokenHeader = req.headers["x-telegram-bot-api-secret-token"];
+
+  if (secretTokenHeader !== SECRET_TOKEN) {
+    return {
+      success: false,
+      message: "Unauthorized",
+    };
+  }
+
   const body = req.body;
 
   if (body.message.from.id != adminId) {

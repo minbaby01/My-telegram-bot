@@ -20,8 +20,6 @@ export const chatbotController = async (ctx: Context) => {
   }
 
   try {
-    await ctx.replyWithChatAction("typing");
-
     switch (provider) {
       // case PROVIDER_CHATBOT.GEMINI:
       //   response = await geminiService(data.msg);

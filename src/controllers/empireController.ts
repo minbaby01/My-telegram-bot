@@ -126,7 +126,7 @@ export const getInventoryController = async (): Promise<any> => {
       })
       .join("\n");
 
-    return formatMsg;
+    return formatMsg.length ? formatMsg : "Inventory empty";
   } catch (error) {
     throw error;
   }
