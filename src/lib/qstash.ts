@@ -5,4 +5,7 @@ if (!QSTASH_TOKEN) {
   throw new Error("QSTASH_TOKEN not found");
 }
 
-export const qstash = new Client({ token: QSTASH_TOKEN });
+export const qstash = new Client({
+  baseUrl: process.env.QSTASH_URL,
+  token: QSTASH_TOKEN,
+});

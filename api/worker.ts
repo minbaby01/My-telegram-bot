@@ -10,4 +10,7 @@ export default verifySignature(worker);
 
 export const config = {
   maxDuration: 60,
+  api: {
+    bodyParser: false,
+  },
 };
