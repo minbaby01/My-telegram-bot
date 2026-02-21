@@ -18,19 +18,12 @@ export const guard = (req: VercelRequest) => {
   if (!SECRET_TOKEN) throw new Error("Secret token not found");
   const secretTokenHeader = req.headers["x-telegram-bot-api-secret-token"];
 
-  if (secretTokenHeader !== SECRET_TOKEN) {
+  const body = req.body;
+
+  if (secretTokenHeader !== SECRET_TOKEN || body.message.from.id != adminId) {
     return {
       success: false,
       message: "Unauthorized",
-    };
-  }
-
-  const body = req.body;
-
-  if (body.message.from.id != adminId) {
-    return {
-      success: false,
-      message: "Hello guest",
     };
   }
 

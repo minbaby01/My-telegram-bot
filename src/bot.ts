@@ -17,6 +17,8 @@ type MyContext = Context & AutoChatActionFlavor;
 
 const BOT_TOKEN = process.env.BOT_TOKEN;
 if (!BOT_TOKEN) throw new Error("Tele token not found");
+const SECRET_TOKEN = process.env.TG_SECRET_TOKEN;
+if (!SECRET_TOKEN) throw new Error("Secret token not found");
 
 export const bot = new Bot<MyContext>(BOT_TOKEN);
 bot.use(autoChatAction());
@@ -40,4 +42,5 @@ bot.on("message", chatbotController);
 
 export const cb = webhookCallback(bot, "https", {
   timeoutMilliseconds: 30000,
+  secretToken: SECRET_TOKEN,
 });
