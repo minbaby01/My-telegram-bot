@@ -1,6 +1,7 @@
 import { GoogleGenAI } from "@google/genai";
 import { SYSTEM_INSTRUCTION } from "../constant/constant.js";
 import { OpenRouter } from "@openrouter/sdk";
+import { OpenResponsesEasyInputMessage } from "@openrouter/sdk/models";
 
 const GEMINI_API_KEY = process.env.GEMINI_API_KEY;
 const gemini = GEMINI_API_KEY
@@ -25,12 +26,16 @@ export const geminiService = async (content: string): Promise<string> => {
 };
 
 const OPEN_ROUTER_API_KEY = process.env.OPEN_ROUTER_API_KEY;
-const openrouter = new OpenRouter({
-  apiKey: OPEN_ROUTER_API_KEY,
-});
+const openrouter = OPEN_ROUTER_API_KEY
+  ? new OpenRouter({
+      apiKey: OPEN_ROUTER_API_KEY,
+    })
+  : null;
 const OPEN_ROUTER_MODEL = process.env.OPEN_ROUTER_MODEL;
 
-export const openRouterService = async (content: string): Promise<string> => {
+export const openRouterService = async (
+  input: OpenResponsesEasyInputMessage[],
+): Promise<string> => {
   if (!openrouter) {
     return "OPEN_ROUTER_API_KEY missing";
   }
@@ -43,9 +48,9 @@ export const openRouterService = async (content: string): Promise<string> => {
         type: "text",
       },
     },
-    input: content,
+    input: input,
   });
   const text = await result.getText();
 
-  return String(text) || "error";
+  return String(text);
 };
