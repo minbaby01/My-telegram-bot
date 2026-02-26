@@ -34,7 +34,8 @@ export const chatbotController = async (ctx: Context) => {
       //   break;
       case PROVIDER_CHATBOT.OPEN_ROUTER:
         response = await openRouterService(input);
-        const updateMsg = [newMsg, { role: "assistant", content: response }];
+        const responseMsg = { role: "assistant", content: response };
+        const updateMsg = [...input, responseMsg];
         await saveChatHistory(chatId, updateMsg);
         break;
       default:
