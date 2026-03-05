@@ -6,7 +6,10 @@ import {
 import { CancelDepositPayload } from "../types/empire/CancelDeposit.js";
 import { CreateDepositItemsPayload } from "../types/empire/CreateDeposit.js";
 import { GetActiveTradeResponse } from "../types/empire/GetActiveTrades.js";
-import { GetCs2InventoryResponse } from "../types/empire/GetCs2Inventory.js";
+import {
+  GetCs2InventoryResponse,
+  UpdateInventoryResponse,
+} from "../types/empire/GetCs2Inventory.js";
 import { MarkAsSentPayload } from "../types/empire/MarkAsSent.js";
 
 export const getCs2InventoryService = async () => {
@@ -45,5 +48,12 @@ export const blockUserService = async ({ steamId }: BlockUserPayload) => {
 
 export const markAsSentService = async ({ depositId }: MarkAsSentPayload) => {
   const { data } = await empireApi.post(`/deposit/${depositId}/sent`);
+  return data;
+};
+
+export const updateInventoryService = async () => {
+  const { data } = await empireApi.get<UpdateInventoryResponse>(
+    "/user/inventory?update=true&per_page=50&cursor=",
+  );
   return data;
 };

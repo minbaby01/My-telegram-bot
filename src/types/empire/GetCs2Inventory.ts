@@ -33,3 +33,7 @@ export interface Sticker {
   name: string;
   image: string;
 }
+
+export interface UpdateInventoryResponse {
+  success: boolean;
+}

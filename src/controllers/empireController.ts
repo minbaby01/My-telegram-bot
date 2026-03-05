@@ -4,6 +4,7 @@ import {
   cancelDepositService,
   getActiveTradesService,
   getCs2InventoryService,
+  updateInventoryService,
 } from "../services/empireService.js";
 import { BlockUserPayload } from "../types/empire/BlockUser.js";
 import { convertToUsd } from "../utils/utils.js";
@@ -29,12 +30,12 @@ export const getActiveDepositController = async (): Promise<string> => {
 
     const pendingDeposits = activeTrades.data.deposits
       .filter((d) => d.status !== TRADE_STATUS.COMPLETED_BUT_REVERSIBLE)
-      .sort((a, b) => a.id - b.id)
       .map((d) => {
         const deposit = [
           `Order: ${d.id}`,
-          `Price: ${convertToUsd(d.total_value)}$`,
-          `Status: ${d.status_message}(${d.status})`,
+          `${d.item.market_name}`,
+          `${convertToUsd(d.total_value)}$`,
+          `Status: ${d.status_message}`,
           d.status === TRADE_STATUS.SENT &&
             d.metadata.partner &&
             `BuyerInfo: ${JSON.stringify(d.metadata.partner, null, 2)}`,
@@ -42,10 +43,11 @@ export const getActiveDepositController = async (): Promise<string> => {
 
         return deposit.filter(Boolean).join(" - ");
       })
-      .join("\n");
+      .join("\n\n");
 
     const returnData = [
       ...(pendingDeposits.length ? [pendingDeposits] : []),
+      "-----------------------",
       `Confirmed (${depositCompleted.length}): ${totalValueCompleted}$`,
     ].join("\n");
 
@@ -55,9 +57,7 @@ export const getActiveDepositController = async (): Promise<string> => {
   }
 };
 
-export const cancelDepositController = async (
-  depositIds: "all" | number[],
-): Promise<void> => {
+export const cancelDepositController = async (depositIds: "all" | number[]) => {
   let ids: number[] = [];
 
   try {
@@ -77,16 +77,17 @@ export const cancelDepositController = async (
     }
 
     await cancelDepositService({ depositIds: ids });
+
+    return "Type `/status` to check";
   } catch (error) {
     throw error;
   }
 };
 
-export const blockUserController = async ({
-  steamId,
-}: BlockUserPayload): Promise<void> => {
+export const blockUserController = async ({ steamId }: BlockUserPayload) => {
   try {
     await blockUserService({ steamId });
+    return "Block OK";
   } catch (error) {
     throw error;
   }
@@ -127,6 +128,18 @@ export const getInventoryController = async (): Promise<any> => {
       .join("\n");
 
     return formatMsg.length ? formatMsg : "Inventory empty";
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const updateInventoryController = async () => {
+  try {
+    const { success } = await updateInventoryService();
+    if (!success) {
+      throw new Error("Try later");
+    }
+    return "Update OK";
   } catch (error) {
     throw error;
   }

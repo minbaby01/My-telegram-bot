@@ -1,10 +1,10 @@
 import { Context } from "grammy";
-import { getActiveDepositController } from "../controllers/empireController.js";
+import { updateInventoryController } from "../controllers/empireController.js";
 import { getErrorMessage } from "../utils/utils.js";
 
-export const status = async (ctx: Context) => {
+export const updateInventory = async (ctx: Context) => {
   try {
-    const msg = await getActiveDepositController();
+    const msg = await updateInventoryController();
 
     return await ctx.reply(msg);
   } catch (err) {
