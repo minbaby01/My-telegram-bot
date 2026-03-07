@@ -1,34 +1,22 @@
-import pLimit from "p-limit";
 import { getItemPriceService } from "../services/steamService.js";
 
 export const getItemPriceController = async (
-  itemNameList: string[],
+  itemName: string,
 ): Promise<string> => {
   try {
-    const limit = pLimit(2);
+    const itemData = await getItemPriceService({ itemName });
 
-    const itemPriceList = await Promise.all(
-      itemNameList.map((itemName) =>
-        limit(async () => {
-          const itemPrice = await getItemPriceService({ itemName });
-          return { ...itemPrice, itemName: itemName };
-        }),
-      ),
-    );
+    if (!itemData.volume) {
+      throw new Error("Invalid response");
+    }
 
-    const validItemResponse = itemPriceList.filter((item) => item.volume);
-
-    const formatMsg = validItemResponse
-      .map((item) => {
-        const i = [
-          `Item: ${item.itemName}`,
-          `Price: ${item.median_price}`,
-          `Volume: ${item.volume}`,
-        ];
-
-        return i.filter(Boolean).join("\n");
-      })
-      .join("\n\n");
+    const formatMsg = [
+      `Item: ${itemName}`,
+      `Price: ${itemData.median_price}`,
+      `Volume: ${itemData.volume}`,
+    ]
+      .filter(Boolean)
+      .join("\n");
 
     return formatMsg;
   } catch (error) {

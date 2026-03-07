@@ -13,7 +13,7 @@ export type MaData = {
   identity_secret: string;
 };
 
-export type ItemPriceData = {
+export type ItemPriceResponse = {
   success: boolean;
   lowest_price: string;
   volume: string;

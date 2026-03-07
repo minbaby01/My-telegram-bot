@@ -5,13 +5,14 @@ import { help } from "./commands/help.js";
 import { status } from "./commands/status.js";
 import { cancel } from "./commands/cancel.js";
 import { start } from "./commands/start.js";
-import { get } from "./commands/getItemPrice.js";
+import { getItemPrice } from "./commands/getItemPrice.js";
 import { inventory } from "./commands/inventory.js";
 import { chatbotController } from "./controllers/chatbotController.js";
 import {
   autoChatAction,
   AutoChatActionFlavor,
 } from "@grammyjs/auto-chat-action";
+import { updateInventory } from "./commands/updateInventory.js";
 
 type MyContext = Context & AutoChatActionFlavor;
 
@@ -35,8 +36,9 @@ bot.command("cancel", cancel);
 bot.command("help", help);
 bot.command("status", status);
 bot.command("start", start);
-bot.command("get", get);
+bot.command("get", getItemPrice);
 bot.command("inventory", inventory);
+bot.command("update_inventory", updateInventory);
 
 bot.on("message", chatbotController);
 
